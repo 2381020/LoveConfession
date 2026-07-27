@@ -62,7 +62,7 @@ export function GenerateLinkDialog({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center gap-4 py-8"
+              className="flex flex-col items-center gap-4 py-10"
             >
               <div className="w-12 h-12 border-[3px] border-pink-200 border-t-pink-500 rounded-full animate-spin" />
               <p className="text-gray-600 font-medium">Generating link...</p>
@@ -72,7 +72,7 @@ export function GenerateLinkDialog({
               key="done"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex flex-col items-center gap-5 py-4"
+              className="flex flex-col items-center gap-5 px-1 pt-8 pb-2"
             >
               <motion.div
                 initial={{ scale: 0 }}
@@ -87,7 +87,7 @@ export function GenerateLinkDialog({
                 Kirim link ini ke <strong>{targetName}</strong> dari <strong>{senderName}</strong>
               </p>
 
-              <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100">
+              <div className="bg-white p-3 rounded-xl shadow-lg border border-gray-100">
                 <Suspense fallback={<div className="w-[180px] h-[180px] animate-pulse bg-gray-100 rounded-lg" />}>
                   <QRCodeSVG
                     value={url}
@@ -100,12 +100,14 @@ export function GenerateLinkDialog({
                 </Suspense>
               </div>
 
-              <div className="w-full flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+              <div className="w-full flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
                 <code className="flex-1 text-xs text-gray-600 truncate px-2">{url}</code>
                 <CopyLinkButton url={url} size="sm" />
               </div>
 
-              <ShareButtons url={url} targetName={targetName} senderName={senderName} />
+              <div className="w-full flex justify-center">
+                <ShareButtons url={url} targetName={targetName} senderName={senderName} />
+              </div>
 
               <Button
                 onClick={() => window.open(url, "_blank", "noopener,noreferrer")}
