@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ImageIcon, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 interface PhotoUploadProps {
@@ -54,7 +55,10 @@ export function PhotoUpload({ preview, file, caption, onChange, onRemove, onCapt
 
   return (
     <div className="space-y-3">
-      <label className="text-sm md:text-[15px] font-medium text-white/90">Foto (Opsional)</label>
+      <div className="flex items-center gap-2">
+        <label className="text-sm md:text-[15px] font-medium text-white/90 theme-light:text-gray-700">Foto</label>
+        <Badge variant="secondary" className="text-xs bg-white/10 text-white/70 border-white/20 theme-light:bg-gray-200/50 theme-light:text-gray-600 theme-light:border-gray-300">Opsional</Badge>
+      </div>
       <AnimatePresence mode="wait">
         {preview ? (
           <motion.div
@@ -66,7 +70,7 @@ export function PhotoUpload({ preview, file, caption, onChange, onRemove, onCapt
           >
             <div className="bg-white p-2 pb-8 rounded-lg shadow-lg rotate-2 hover:rotate-0 transition-transform">
               <img src={preview} alt="Preview" className="w-full h-52 md:h-56 object-cover rounded" loading="lazy" />
-              <p className="text-center text-xs text-gray-500 mt-2">{caption || "Our moment"} 📸</p>
+              {caption && <p className="text-center text-xs text-gray-500 mt-2">{caption}</p>}
             </div>
             <button
               type="button"
@@ -91,17 +95,17 @@ export function PhotoUpload({ preview, file, caption, onChange, onRemove, onCapt
               onDrop={handleDrop}
               onClick={() => inputRef.current?.click()}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); inputRef.current?.click(); } }}
-              className={`flex flex-col items-center gap-3 p-5 md:p-6 rounded-xl border-2 border-dashed cursor-pointer transition-all min-h-[90px] md:min-h-[100px] ${isDragging ? "border-white bg-white/20" : "border-white/30 bg-white/5 hover:bg-white/10"}`}
+              className={`flex flex-col items-center gap-3 p-5 md:p-6 rounded-xl border-2 border-dashed cursor-pointer transition-all min-h-[90px] md:min-h-[100px] ${isDragging ? "border-white bg-white/20 theme-light:border-gray-400 theme-light:bg-white/70" : "border-white/30 bg-white/5 hover:bg-white/10 theme-light:border-gray-200 theme-light:bg-white/60 theme-light:hover:bg-white/70"}`}
             >
               {isCompressing ? (
-                <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin theme-light:border-gray-300 theme-light:border-t-gray-600" />
               ) : (
-                <ImageIcon className="w-10 h-10 text-white/60" />
+                <ImageIcon className="w-10 h-10 text-white/60 theme-light:text-gray-400" />
               )}
-              <p className="text-sm text-white/70">
+              <p className="text-sm text-white/70 theme-light:text-gray-600">
                 {isCompressing ? "Mengompresi foto..." : "Drag & drop foto atau klik untuk upload"}
               </p>
-              <p className="text-xs text-white/50">Maksimal 2MB (setelah kompresi)</p>
+              <p className="text-xs text-white/50 theme-light:text-gray-400">Maksimal 2MB (setelah kompresi)</p>
             </div>
             <input
               ref={inputRef}

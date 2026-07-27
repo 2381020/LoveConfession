@@ -92,14 +92,14 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             className="text-5xl md:text-7xl mb-5"
           >
-            🥹
+            
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-[2.75rem] md:text-[4rem] lg:text-[4.75rem] font-bold text-white leading-[1.1] mb-4 md:mb-5"
+            className="text-[2.75rem] md:text-[4rem] lg:text-[4.75rem] font-bold text-white theme-light:text-gray-900 leading-[1.1] mb-4 md:mb-5"
           >
             YEAYYYY!! 💖
           </motion.h1>
@@ -108,7 +108,7 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-xl md:text-2xl lg:text-[1.75rem] font-medium text-white mb-2 leading-snug"
+            className="text-xl md:text-2xl lg:text-[1.75rem] font-medium text-white theme-light:text-gray-900 mb-2 leading-snug"
           >
             Mulai sekarang kita resmi pacaran!
           </motion.p>
@@ -117,9 +117,9 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            className="text-lg md:text-xl text-white/85 mb-8 md:mb-10"
+            className="text-lg md:text-xl text-white/85 theme-light:text-gray-800 mb-8 md:mb-10"
           >
-            Yeay, {senderName}! 🎉💕
+            Love You, {senderName}! 🎉💕
           </motion.p>
 
           <motion.div
@@ -146,7 +146,7 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
                 }}
                 className={`${h.size} opacity-80`}
               >
-                <Heart className="w-6 h-6 md:w-7 md:h-7 text-white fill-white" />
+                <Heart className="w-6 h-6 md:w-7 md:h-7 text-white fill-white theme-light:text-gray-900 theme-light:fill-gray-900" />
               </motion.div>
             ))}
           </motion.div>

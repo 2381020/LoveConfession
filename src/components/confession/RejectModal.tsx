@@ -12,16 +12,19 @@ interface RejectModalProps {
 
 export function RejectModal({ open, onClose }: RejectModalProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const handleClose = useCallback(() => {
     onClose();
-    previousFocusRef.current?.focus();
+    try { window.close(); } catch {}
+    setTimeout(() => {
+      if (!document.hidden) {
+        window.location.href = "/";
+      }
+    }, 300);
   }, [onClose]);
 
   useEffect(() => {
     if (open) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
       const timer = setTimeout(() => closeButtonRef.current?.focus(), 50);
       return () => clearTimeout(timer);
     }

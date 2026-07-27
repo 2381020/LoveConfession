@@ -98,7 +98,7 @@ export default function ConfessionPage({ params }: PageProps) {
   const themeConfig = themes[data.theme];
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" data-theme-mode={themeConfig.mode}>
       <AnimatedBackground gradient={themeConfig.bg} />
       <Suspense fallback={null}>
         <FloatingHearts />

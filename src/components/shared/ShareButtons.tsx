@@ -23,17 +23,17 @@ export function ShareButtons({ url, targetName, senderName }: ShareButtonsProps)
   const encodedUrl = encodeURIComponent(url);
 
   return (
-    <div className="flex gap-2 flex-wrap">
+    <div className="flex flex-row flex-wrap sm:flex-nowrap gap-2">
       <Button
         variant="outline"
         size="sm"
         onClick={() =>
           window.open(`https://wa.me/?text=${encodedText}%20${encodedUrl}`, "_blank", "noopener,noreferrer")
         }
-        className="gap-1.5"
+        className="gap-1 justify-center max-sm:h-7 max-sm:px-2"
       >
         <MessageCircle className="w-4 h-4" />
-        WhatsApp
+        <span className="hidden sm:inline">WhatsApp</span>
       </Button>
       <Button
         variant="outline"
@@ -42,13 +42,13 @@ export function ShareButtons({ url, targetName, senderName }: ShareButtonsProps)
           window.open(
             `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
             "_blank",
-            "noopener,noreferrer"
+            "noopener noreferrer"
           )
         }
-        className="gap-1.5"
+        className="gap-1 justify-center max-sm:h-7 max-sm:px-2"
       >
         <Send className="w-4 h-4" />
-        Telegram
+        <span className="hidden sm:inline">Telegram</span>
       </Button>
       <Button
         variant="outline"
@@ -57,13 +57,13 @@ export function ShareButtons({ url, targetName, senderName }: ShareButtonsProps)
           window.open(
             `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
             "_blank",
-            "noopener,noreferrer"
+            "noopener noreferrer"
           )
         }
-        className="gap-1.5"
+        className="gap-1 justify-center max-sm:h-7 max-sm:px-2"
       >
         <XIcon className="w-4 h-4" />
-        Twitter
+        <span className="hidden sm:inline">Twitter</span>
       </Button>
     </div>
   );

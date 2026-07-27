@@ -78,6 +78,8 @@
   }
 }
 
+@variant theme-light ([data-theme-mode="light"] &);
+
 @layer utilities {
   @keyframes float-up {
     0% {

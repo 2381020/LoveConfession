@@ -22,7 +22,7 @@ export function LoadingScreen() {
         }}
         className="mb-8"
       >
-        <Heart className="w-20 h-20 text-white fill-white" />
+        <Heart className="w-20 h-20 text-white fill-white theme-light:text-gray-900 theme-light:fill-gray-900" />
       </motion.div>
 
       <motion.div
@@ -31,14 +31,14 @@ export function LoadingScreen() {
         transition={{ delay: 0.3 }}
         className="flex flex-col items-center gap-4"
       >
-        <p className="text-white text-xl font-medium">Menyiapkan sesuatu yang spesial...</p>
+        <p className="text-white theme-light:text-gray-900 text-xl font-medium">Menyiapkan sesuatu yang spesial...</p>
         <div className="flex gap-1.5">
           {[0, 1, 2].map((i) => (
             <motion.div
               key={i}
               animate={{ opacity: [0.3, 1, 0.3] }}
               transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
-              className="w-2.5 h-2.5 bg-white rounded-full"
+              className="w-2.5 h-2.5 bg-white theme-light:bg-gray-900 rounded-full"
             />
           ))}
         </div>

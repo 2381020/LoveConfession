@@ -29,7 +29,7 @@ export function AnswerButtons({ onYes, onNo }: AnswerButtonsProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="text-3xl md:text-5xl font-bold text-white text-center"
+        className="text-3xl md:text-5xl font-bold text-white theme-light:text-gray-900 text-center"
       >
         Maukah kamu jadi pacarku?
       </motion.h2>
@@ -44,7 +44,7 @@ export function AnswerButtons({ onYes, onNo }: AnswerButtonsProps) {
           size="lg"
           className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold text-lg px-12 py-8 rounded-full shadow-xl hover:shadow-2xl transition-all"
         >
-          <Heart className="w-5 h-5 fill-white" />
+          <Heart className="w-5 h-5 fill-white theme-light:fill-gray-900" />
           Iya ❤️
         </Button>
       </motion.div>
@@ -69,7 +69,7 @@ export function AnswerButtons({ onYes, onNo }: AnswerButtonsProps) {
           }}
           className={`
             bg-white/10 border-white/30 text-white font-medium px-8 py-7 rounded-full backdrop-blur-sm
-            hover:bg-white/20 transition-all whitespace-nowrap cursor-pointer
+            hover:bg-white/20 transition-all whitespace-nowrap cursor-pointer theme-light:bg-white/60 theme-light:border-gray-200 theme-light:text-gray-900 theme-light:hover:bg-white/80
             ${isExhausted ? "border-red-300/50 animate-pulse" : ""}
           `}
         >

@@ -16,7 +16,7 @@ export function GreetingStep({ targetName }: GreetingStepProps) {
       className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4"
     >
       <motion.h1
-        className="text-4xl md:text-6xl font-bold text-white mb-4"
+        className="text-4xl md:text-6xl font-bold text-white theme-light:text-gray-900 mb-4"
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -26,7 +26,7 @@ export function GreetingStep({ targetName }: GreetingStepProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="text-lg text-white/70"
+        className="text-lg text-white/70 theme-light:text-gray-600"
       >
         Ada sesuatu untukmu...
       </motion.div>

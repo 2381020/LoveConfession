@@ -19,4 +19,7 @@ export interface ThemeConfig {
   bg: string;
   label: string;
   preview: string;
+  mode: "light" | "dark";
+  button: { from: string; via: string; to: string };
+  buttonHover: { from: string; via: string; to: string };
 }

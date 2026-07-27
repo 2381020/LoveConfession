@@ -16,7 +16,7 @@ const themeOptions: Theme[] = ["pink", "sakura", "dark", "minimal"];
 export function ThemePicker({ value, onChange }: ThemePickerProps) {
   return (
     <div className="space-y-3">
-      <label className="text-sm md:text-[15px] font-medium text-white/90">Pilih Tema</label>
+      <label className="text-sm md:text-[15px] font-medium text-white/90 theme-light:text-gray-700">Pilih Tema</label>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         {themeOptions.map((t) => {
           const config = themes[t];
@@ -31,15 +31,15 @@ export function ThemePicker({ value, onChange }: ThemePickerProps) {
               className={cn(
                 "relative flex flex-col items-center gap-2 p-3.5 md:p-4 rounded-xl border-2 transition-all cursor-pointer",
                 isSelected
-                  ? "border-white bg-white/20 shadow-lg"
-                  : "border-white/20 bg-white/5 hover:bg-white/10"
+                  ? "border-white bg-white/20 shadow-lg theme-light:border-gray-400 theme-light:bg-white/70"
+                  : "border-white/20 bg-white/5 hover:bg-white/10 theme-light:border-gray-200 theme-light:bg-white/60 theme-light:hover:bg-white/70"
               )}
             >
               <div
                 className="w-full h-14 md:h-16 rounded-xl"
                 style={{ background: config.preview }}
               />
-              <span className="text-xs md:text-sm font-medium text-white/90">{config.label}</span>
+              <span className="text-xs md:text-sm font-medium text-white/90 theme-light:text-gray-700">{config.label}</span>
               {isSelected && (
                 <motion.div
                   initial={{ scale: 0 }}

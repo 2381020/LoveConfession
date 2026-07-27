@@ -23,10 +23,10 @@ export function TypingStep({ onComplete }: TypingStepProps) {
       className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4"
     >
       <div className="max-w-lg">
-        <p className="text-2xl md:text-3xl text-white font-medium leading-relaxed min-h-[120px]">
+        <p className="text-2xl md:text-3xl text-white theme-light:text-gray-900 font-medium leading-relaxed min-h-[120px]">
           {displayedText}
           {!isComplete && (
-            <span className="inline-block w-0.5 h-8 bg-white ml-1 animate-[blink_0.8s_ease-in-out_infinite]" />
+            <span className="inline-block w-0.5 h-8 bg-white theme-light:bg-gray-900 ml-1 animate-[blink_0.8s_ease-in-out_infinite]" />
           )}
         </p>
 
