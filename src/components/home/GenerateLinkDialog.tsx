@@ -101,7 +101,7 @@ export function GenerateLinkDialog({
                     value={url}
                     size={100}
                     bgColor="#ffffff"
-                    fgColor="#ec4899"
+                    fgColor="#000000"
                     level="M"
                     includeMargin={false}
                     className="sm:hidden"
@@ -110,7 +110,7 @@ export function GenerateLinkDialog({
                     value={url}
                     size={160}
                     bgColor="#ffffff"
-                    fgColor="#ec4899"
+                    fgColor="#000000"
                     level="M"
                     includeMargin={false}
                     className="hidden sm:block"

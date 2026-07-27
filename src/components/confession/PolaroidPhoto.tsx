@@ -28,7 +28,7 @@ export function PolaroidPhoto({ src, caption }: PolaroidPhotoProps) {
           unoptimized
         />
         <p className="text-center text-sm text-gray-500 mt-2 italic">
-          {caption || "Our special moment"} 📸
+          {caption} 
         </p>
       </div>
     </motion.div>
