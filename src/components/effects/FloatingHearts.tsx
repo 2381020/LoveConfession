@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface Heart {
   id: number;
@@ -15,20 +16,22 @@ interface Heart {
 const HEART_EMOJIS = ["❤️", "💕", "💖", "💗", "💝", "💘"];
 
 export function FloatingHearts() {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [hearts, setHearts] = useState<Heart[]>([]);
 
   useEffect(() => {
-    const generated: Heart[] = Array.from({ length: 12 }, (_, i) => ({
+    const count = isMobile ? 7 : 12;
+    const generated: Heart[] = Array.from({ length: count }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
-      size: 16 + Math.random() * 20,
-      duration: 8 + Math.random() * 12,
+      size: isMobile ? 14 + Math.random() * 10 : 16 + Math.random() * 20,
+      duration: isMobile ? 10 + Math.random() * 14 : 8 + Math.random() * 12,
       delay: Math.random() * 10,
       emoji: HEART_EMOJIS[Math.floor(Math.random() * HEART_EMOJIS.length)],
       opacity: 0.15 + Math.random() * 0.35,
     }));
     setHearts(generated);
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

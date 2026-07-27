@@ -8,6 +8,7 @@ export interface ConfessionData {
   message: string;
   theme: Theme;
   photoUrl?: string;
+  photoCaption?: string;
   musicUrl?: string;
   whatsappNumber?: string;
   viewCount: number;

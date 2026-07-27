@@ -48,7 +48,7 @@ export function LetterStep({ data, onComplete }: LetterStepProps) {
             transition={{ delay: 0.8 }}
             className="flex justify-center"
           >
-            <PolaroidPhoto src={data.photoUrl} />
+            <PolaroidPhoto src={data.photoUrl} caption={data.photoCaption} />
           </motion.div>
         )}
 

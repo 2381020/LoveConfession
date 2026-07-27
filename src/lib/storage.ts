@@ -8,7 +8,8 @@ export async function saveConfession(
   theme: string,
   photo?: File,
   music?: File,
-  whatsappNumber?: string
+  whatsappNumber?: string,
+  photoCaption?: string
 ): Promise<ConfessionData> {
   const formData = new FormData();
   formData.append("slug", slug);
@@ -17,6 +18,7 @@ export async function saveConfession(
   formData.append("message", message);
   formData.append("theme", theme);
   if (whatsappNumber) formData.append("whatsappNumber", whatsappNumber);
+  if (photoCaption) formData.append("photoCaption", photoCaption);
   if (photo) formData.append("photo", photo);
   if (music) formData.append("music", music);
 

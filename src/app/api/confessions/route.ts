@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
     const message = formData.get("message") as string;
     const theme = formData.get("theme") as string;
     const whatsappNumber = (formData.get("whatsappNumber") as string) || null;
+    const photoCaption = (formData.get("photoCaption") as string) || null;
     const photo = formData.get("photo") as File | null;
     const music = formData.get("music") as File | null;
 
@@ -79,6 +80,7 @@ export async function POST(request: NextRequest) {
       message,
       theme,
       photo_url: photoUrl,
+      photo_caption: photoCaption,
       music_url: musicUrl,
       whatsapp: whatsappNumber,
       view_count: 0,
@@ -93,6 +95,7 @@ export async function POST(request: NextRequest) {
       message,
       theme,
       photoUrl,
+      photoCaption,
       musicUrl,
       whatsappNumber,
       viewCount: 0,

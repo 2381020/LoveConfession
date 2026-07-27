@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { HeartRain } from "@/components/effects/HeartRain";
 import { Button } from "@/components/ui/button";
-import { Phone, Heart } from "lucide-react";
+import { Heart, Share2 } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface SuccessCelebrationProps {
@@ -14,9 +14,10 @@ interface SuccessCelebrationProps {
 
 export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebrationProps) {
   const [showContent, setShowContent] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const duration = 3000;
+    const duration = 2500;
     const end = Date.now() + duration;
 
     const frame = () => {
@@ -39,7 +40,7 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
     frame();
 
     confetti({
-      particleCount: 100,
+      particleCount: 80,
       spread: 100,
       origin: { y: 0.6 },
       colors: ["#f43f5e", "#ec4899", "#d946ef", "#a855f7"],
@@ -49,8 +50,27 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
     return () => clearTimeout(timer);
   }, []);
 
+  const handleShare = useCallback(async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Confession Link ❤️",
+          text: `Hey! Ada confession spesial untukmu nih! 💕`,
+          url,
+        });
+      } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {}
+    }
+  }, []);
+
   return (
-    <div className="fixed inset-0 z-30 flex flex-col items-center justify-center">
+    <div className="fixed inset-0 z-30 flex items-center justify-center min-h-[100svh]">
       <HeartRain count={35} />
 
       <motion.div
@@ -62,71 +82,88 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
 
       {showContent && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="relative z-10 text-center px-4 max-w-lg"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative z-10 text-center px-4 w-[calc(100%-32px)] max-w-[640px]"
         >
           <motion.div
-            animate={{ scale: [1, 1.2, 1], rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 1, repeat: Infinity }}
-            className="text-6xl md:text-8xl mb-6"
+            animate={{ y: [0, -8, 0], rotate: [0, 3, -3, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="text-5xl md:text-7xl mb-5"
           >
             🥹
           </motion.div>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-            YEAAYYY!! ❤️🥹
-          </h1>
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-[2.75rem] md:text-[4rem] lg:text-[4.75rem] font-bold text-white leading-[1.1] mb-4 md:mb-5"
+          >
+            YEAYYYY!! 💖
+          </motion.h1>
 
-          <p className="text-xl md:text-2xl text-white/90 mb-2">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="text-xl md:text-2xl lg:text-[1.75rem] font-medium text-white mb-2 leading-snug"
+          >
             Mulai sekarang kita resmi pacaran!
-          </p>
-          <p className="text-lg text-white/70 mb-8">
-            Yeay, {senderName}! 🎉
-          </p>
+          </motion.p>
 
-          {whatsappNumber && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-            >
-              <Button
-                onClick={() =>
-                  window.open(`https://wa.me/${whatsappNumber}`, "_blank", "noopener,noreferrer")
-                }
-                size="lg"
-                className="bg-white text-green-600 hover:bg-white/90 font-semibold text-lg px-8 py-6 rounded-full shadow-xl"
-              >
-                <Phone className="w-5 h-5" />
-                Hubungi Aku 💬
-              </Button>
-            </motion.div>
-          )}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="text-lg md:text-xl text-white/85 mb-8 md:mb-10"
+          >
+            Yeay, {senderName}! 🎉💕
+          </motion.p>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-            className="mt-12 flex justify-center gap-4"
+            transition={{ delay: 0.7, duration: 0.5 }}
+            className="flex justify-center items-center gap-3 md:gap-4 mb-8 md:mb-10"
           >
-            {[...Array(5)].map((_, i) => (
+            {[
+              { size: "text-2xl md:text-3xl", y: [-4, -14, -4], dur: 2.8 },
+              { size: "text-xl md:text-2xl", y: [0, -10, 0], dur: 3.2 },
+              { size: "text-2xl md:text-3xl", y: [-2, -12, -2], dur: 2.5 },
+              { size: "text-xl md:text-2xl", y: [0, -8, 0], dur: 3.5 },
+              { size: "text-2xl md:text-3xl", y: [-3, -14, -3], dur: 2.9 },
+            ].map((h, i) => (
               <motion.div
                 key={i}
-                animate={{
-                  y: [0, -20, 0],
-                  scale: [1, 1.2, 1],
-                }}
+                animate={{ y: h.y }}
                 transition={{
-                  duration: 1.5,
+                  duration: h.dur,
                   repeat: Infinity,
-                  delay: i * 0.2,
+                  ease: "easeInOut",
+                  delay: i * 0.15,
                 }}
+                className={`${h.size} opacity-80`}
               >
-                <Heart className="w-8 h-8 text-white fill-white" />
+                <Heart className="w-6 h-6 md:w-7 md:h-7 text-white fill-white" />
               </motion.div>
             ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+          >
+            <Button
+              onClick={handleShare}
+              size="lg"
+              className="w-[280px] md:w-[320px] h-[52px] md:h-[54px] rounded-2xl bg-white text-pink-600 hover:bg-white/95 font-bold text-[15px] md:text-base shadow-xl hover:shadow-2xl hover:-translate-y-1 hover:glow transition-all duration-200 active:scale-[0.97]"
+            >
+              <Share2 className="w-5 h-5" />
+              {copied ? "Link Disalin! ✅" : "Bagikan Momen Ini 💖"}
+            </Button>
           </motion.div>
         </motion.div>
       )}

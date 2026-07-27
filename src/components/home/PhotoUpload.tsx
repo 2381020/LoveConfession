@@ -3,17 +3,20 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ImageIcon, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 interface PhotoUploadProps {
   preview?: string;
   file?: File;
+  caption?: string;
   onChange: (preview: string, file: File) => void;
   onRemove: () => void;
+  onCaptionChange?: (caption: string) => void;
 }
 
-export function PhotoUpload({ preview, file, onChange, onRemove }: PhotoUploadProps) {
+export function PhotoUpload({ preview, file, caption, onChange, onRemove, onCaptionChange }: PhotoUploadProps) {
   const [isCompressing, setIsCompressing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -51,7 +54,7 @@ export function PhotoUpload({ preview, file, onChange, onRemove }: PhotoUploadPr
 
   return (
     <div className="space-y-3">
-      <label className="text-sm font-medium text-white/90">Foto (Opsional)</label>
+      <label className="text-sm md:text-[15px] font-medium text-white/90">Foto (Opsional)</label>
       <AnimatePresence mode="wait">
         {preview ? (
           <motion.div
@@ -62,8 +65,8 @@ export function PhotoUpload({ preview, file, onChange, onRemove }: PhotoUploadPr
             className="relative w-full max-w-xs mx-auto"
           >
             <div className="bg-white p-2 pb-8 rounded-lg shadow-lg rotate-2 hover:rotate-0 transition-transform">
-              <img src={preview} alt="Preview" className="w-full h-48 object-cover rounded" loading="lazy" />
-              <p className="text-center text-xs text-gray-500 mt-2">Our moment 📸</p>
+              <img src={preview} alt="Preview" className="w-full h-52 md:h-56 object-cover rounded" loading="lazy" />
+              <p className="text-center text-xs text-gray-500 mt-2">{caption || "Our moment"} 📸</p>
             </div>
             <button
               type="button"
@@ -88,7 +91,7 @@ export function PhotoUpload({ preview, file, onChange, onRemove }: PhotoUploadPr
               onDrop={handleDrop}
               onClick={() => inputRef.current?.click()}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); inputRef.current?.click(); } }}
-              className={`flex flex-col items-center gap-3 p-6 rounded-xl border-2 border-dashed cursor-pointer transition-all ${isDragging ? "border-white bg-white/20" : "border-white/30 bg-white/5 hover:bg-white/10"}`}
+              className={`flex flex-col items-center gap-3 p-5 md:p-6 rounded-xl border-2 border-dashed cursor-pointer transition-all min-h-[90px] md:min-h-[100px] ${isDragging ? "border-white bg-white/20" : "border-white/30 bg-white/5 hover:bg-white/10"}`}
             >
               {isCompressing ? (
                 <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />

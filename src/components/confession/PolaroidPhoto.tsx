@@ -5,9 +5,10 @@ import Image from "next/image";
 
 interface PolaroidPhotoProps {
   src: string;
+  caption?: string;
 }
 
-export function PolaroidPhoto({ src }: PolaroidPhotoProps) {
+export function PolaroidPhoto({ src, caption }: PolaroidPhotoProps) {
   return (
     <motion.div
       initial={{ opacity: 0, rotate: -5, scale: 0.8 }}
@@ -27,7 +28,7 @@ export function PolaroidPhoto({ src }: PolaroidPhotoProps) {
           unoptimized
         />
         <p className="text-center text-sm text-gray-500 mt-2 italic">
-          Our special moment 📸
+          {caption || "Our special moment"} 📸
         </p>
       </div>
     </motion.div>

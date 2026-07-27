@@ -36,6 +36,7 @@ export async function GET(
       message: data.message,
       theme: data.theme,
       photoUrl: data.photo_url,
+      photoCaption: data.photo_caption,
       musicUrl: data.music_url,
       whatsappNumber: data.whatsapp,
       viewCount: newCount,

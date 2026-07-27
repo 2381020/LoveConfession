@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ export function ConfessionForm() {
   const [theme, setTheme] = useState<Theme>("pink");
   const [photoPreview, setPhotoPreview] = useState<string | undefined>();
   const [photoFile, setPhotoFile] = useState<File | undefined>();
+  const [photoCaption, setPhotoCaption] = useState("");
   const [musicFile, setMusicFile] = useState<File | undefined>();
   const [musicName, setMusicName] = useState("");
   const [whatsappNumber, setWhatsappNumber] = useState("");
@@ -37,6 +38,7 @@ export function ConfessionForm() {
     setTheme("pink");
     setPhotoPreview(undefined);
     setPhotoFile(undefined);
+    setPhotoCaption("");
     setMusicFile(undefined);
     setMusicName("");
     setWhatsappNumber("");
@@ -60,7 +62,8 @@ export function ConfessionForm() {
         theme,
         photoFile,
         musicFile,
-        whatsappNumber.trim() || undefined
+        whatsappNumber.trim() || undefined,
+        photoCaption.trim() || undefined
       );
       setGeneratedSlug(slug);
       setDialogOpen(true);
@@ -90,29 +93,30 @@ export function ConfessionForm() {
         initial="hidden"
         animate="visible"
         onSubmit={handleSubmit}
-        className="w-full max-w-xl mx-auto space-y-6 p-6 md:p-8 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl"
+        className="w-[min(100%-32px,560px)] mx-auto space-y-5 md:space-y-6 p-6 md:p-7 rounded-2xl bg-white/15 backdrop-blur-xl border border-white/25 shadow-xl"
       >
         <motion.div variants={itemVariants} className="space-y-2">
-          <Label htmlFor="targetName" className="text-white/90">Nama Target ❤️</Label>
+          <Label htmlFor="targetName" className="text-sm md:text-[15px] font-medium text-white/90">Untuk siapa? 💘</Label>
           <Input id="targetName" placeholder="Nama dia..." value={targetName} maxLength={100}
             onChange={(e) => setTargetName(e.target.value)}
-            className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-white/30" />
+            className="h-[44px] md:h-[48px] rounded-xl text-[15px] px-3.5 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-white/30" />
           <p className="text-xs text-white/40 text-right">{targetName.length}/100</p>
         </motion.div>
 
         <motion.div variants={itemVariants} className="space-y-2">
-          <Label htmlFor="senderName" className="text-white/90">Nama Pengirim 💌</Label>
+          <Label htmlFor="senderName" className="text-sm md:text-[15px] font-medium text-white/90">Dari siapa? 💌</Label>
           <Input id="senderName" placeholder="Namamu..." value={senderName} maxLength={100}
             onChange={(e) => setSenderName(e.target.value)}
-            className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-white/30" />
+            className="h-[44px] md:h-[48px] rounded-xl text-[15px] px-3.5 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-white/30" />
           <p className="text-xs text-white/40 text-right">{senderName.length}/100</p>
         </motion.div>
 
         <motion.div variants={itemVariants} className="space-y-2">
-          <Label htmlFor="message" className="text-white/90">Pesan Cinta ✍️</Label>
+          <Label htmlFor="message" className="text-sm md:text-[15px] font-medium text-white/90">Pesan Cinta 💝</Label>
           <Textarea id="message" placeholder="Tulis pesan cintamu di sini..." value={message}
             maxLength={5000} onChange={(e) => setMessage(e.target.value)}
-            rows={5} className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-white/30 resize-none" />
+            rows={5}
+            className="min-h-[100px] md:min-h-[120px] rounded-xl text-[15px] px-3.5 py-3 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-white/30 resize-none" />
           <p className="text-xs text-white/40 text-right">{message.length}/5000</p>
         </motion.div>
 
@@ -124,19 +128,39 @@ export function ConfessionForm() {
           <PhotoUpload
             preview={photoPreview}
             file={photoFile}
+            caption={photoCaption}
             onChange={(preview, file) => { setPhotoPreview(preview); setPhotoFile(file); }}
-            onRemove={() => { setPhotoPreview(undefined); setPhotoFile(undefined); }}
+            onRemove={() => { setPhotoPreview(undefined); setPhotoFile(undefined); setPhotoCaption(""); }}
+            onCaptionChange={setPhotoCaption}
           />
         </motion.div>
 
+        <AnimatePresence>
+          {photoPreview && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              variants={itemVariants}
+              className="space-y-2 overflow-hidden"
+            >
+              <Label htmlFor="photoCaption" className="text-sm md:text-[15px] font-medium text-white/90">Caption Foto 💕</Label>
+              <Input id="photoCaption" placeholder="Tulis caption untuk foto ini..." value={photoCaption}
+                maxLength={200}
+                onChange={(e) => setPhotoCaption(e.target.value)}
+                className="h-[44px] md:h-[48px] rounded-xl text-[15px] px-3.5 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-white/30" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <motion.div variants={itemVariants} className="space-y-2">
-          <Label className="text-white/90">Lagu (Opsional)</Label>
+          <Label className="text-sm md:text-[15px] font-medium text-white/90">Lagu (Opsional)</Label>
           <div
             role="button"
             tabIndex={0}
             onClick={() => musicInputRef.current?.click()}
             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); musicInputRef.current?.click(); } }}
-            className="flex items-center gap-3 p-3 rounded-xl border-2 border-dashed border-white/30 bg-white/5 hover:bg-white/10 cursor-pointer transition-all"
+            className="flex items-center gap-3 p-3.5 md:p-4 rounded-xl border-2 border-dashed border-white/30 bg-white/5 hover:bg-white/10 cursor-pointer transition-all"
           >
             <Music className="w-5 h-5 text-white/40" />
             <span className="text-sm text-white/70 flex-1 truncate">
@@ -178,7 +202,7 @@ export function ConfessionForm() {
 
         <motion.div variants={itemVariants}>
           <Button type="submit" size="lg" disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 hover:from-pink-600 hover:via-rose-600 hover:to-purple-600 text-white font-semibold text-base py-6 shadow-lg hover:shadow-xl transition-all disabled:opacity-50">
+            className="w-full h-[52px] md:h-[54px] rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 hover:from-pink-600 hover:via-rose-600 hover:to-purple-600 text-white text-[15px] md:text-base font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50">
             {isSubmitting ? (
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (

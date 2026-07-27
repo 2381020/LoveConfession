@@ -21,7 +21,7 @@ export default function Home() {
         <CursorSparkle />
       </Suspense>
 
-      <main className="relative z-10 px-4 pb-20">
+      <main className="relative z-10 px-4 pb-16 md:pb-24">
         <HeroSection />
         <ConfessionForm />
       </main>

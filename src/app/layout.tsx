@@ -1,11 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const poppins = localFont({
+  src: [
+    { path: "../../public/fonts/poppins-latin-400.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/poppins-latin-500.woff2", weight: "500", style: "normal" },
+    { path: "../../public/fonts/poppins-latin-600.woff2", weight: "600", style: "normal" },
+    { path: "../../public/fonts/poppins-latin-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-sans",
   display: "swap",
 });
