@@ -28,31 +28,28 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-
-    const { data: oldData } = await supabase
+    const { data: allData } = await supabase
       .from("confessions")
-      .select("slug, photo_url, music_url")
-      .lt("created_at", cutoff);
+      .select("slug, photo_url, music_url");
 
-    if (!oldData || oldData.length === 0) {
+    if (!allData || allData.length === 0) {
       return NextResponse.json({ success: true, deleted: 0 });
     }
 
-    for (const row of oldData) {
+    for (const row of allData) {
       await deleteStorageFiles(row.slug);
     }
 
     const { error } = await supabase
       .from("confessions")
       .delete()
-      .lt("created_at", cutoff);
+      .neq("slug", "");
 
     if (error) throw error;
 
     return NextResponse.json({
       success: true,
-      deleted: oldData.length,
+      deleted: allData.length,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Internal server error";
