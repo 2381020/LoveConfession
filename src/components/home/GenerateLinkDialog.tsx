@@ -62,7 +62,10 @@ export function GenerateLinkDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-white/95 backdrop-blur-xl border-white/20 max-w-[calc(100%-2.5rem)] sm:max-w-md">
+      <DialogContent
+        className="bg-white/95 backdrop-blur-xl border-white/20 sm:max-w-md"
+        style={{ maxWidth: 'calc(100% - 2.5rem)' }}
+      >
         <AnimatePresence mode="wait">
           {phase === "generating" ? (
             <motion.div
@@ -80,7 +83,7 @@ export function GenerateLinkDialog({
               key="done"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex flex-col items-center gap-3 sm:gap-5 px-2 sm:px-4 pt-5 sm:pt-8 pb-2"
+              className="flex flex-col items-center gap-3 sm:gap-5 sm:px-4 pt-5 sm:pt-8 pb-2"
             >
               <motion.div
                 initial={{ scale: 0 }}
@@ -90,7 +93,7 @@ export function GenerateLinkDialog({
                 <Sparkles className="w-8 h-8 text-pink-500" />
               </motion.div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-gray-800">Link Berhasil Dibuat! 🎉</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-800 text-center">Link Berhasil Dibuat! 🎉</h3>
               <p className="text-xs sm:text-sm text-gray-500 text-center">
                 Kirim link ini ke <strong>{targetName}</strong> dari <strong>{senderName}</strong>
               </p>
@@ -119,7 +122,7 @@ export function GenerateLinkDialog({
               </div>
 
               <div className="w-full flex items-center gap-2 p-2 sm:p-3 bg-gray-50 rounded-lg">
-                <code className="flex-1 text-xs text-gray-600 truncate px-2">{url}</code>
+                <code className="flex-1 text-xs text-gray-600 truncate px-2 min-w-0">{url}</code>
                 <CopyLinkButton url={url} size="sm" />
               </div>
 

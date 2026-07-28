@@ -23,7 +23,7 @@ export function ShareButtons({ url, targetName, senderName }: ShareButtonsProps)
   const encodedUrl = encodeURIComponent(url);
 
   return (
-    <div className="flex flex-row flex-wrap sm:flex-nowrap gap-2">
+    <div className="flex flex-row flex-wrap sm:flex-nowrap gap-2 justify-center">
       <Button
         variant="outline"
         size="sm"
