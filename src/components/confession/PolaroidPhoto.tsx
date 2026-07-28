@@ -25,7 +25,6 @@ export function PolaroidPhoto({ src, caption }: PolaroidPhotoProps) {
           height={288}
           className="w-64 h-64 md:w-72 md:h-72 object-cover"
           loading="lazy"
-          unoptimized
         />
         <p className="text-center text-sm text-gray-500 mt-2 italic">
           {caption} 

@@ -7,6 +7,7 @@ import { CopyLinkButton } from "@/components/shared/CopyLinkButton";
 import { ShareButtons } from "@/components/shared/ShareButtons";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Sparkles } from "lucide-react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Theme } from "@/lib/types";
 import { themes } from "@/lib/themes";
 
@@ -46,6 +47,9 @@ export function GenerateLinkDialog({
 }: GenerateLinkDialogProps) {
   const [phase, setPhase] = useState<"generating" | "done">("generating");
   const [isBtnHovered, setIsBtnHovered] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 640px)");
+  const isTablet = useMediaQuery("(min-width: 380px)");
+  const qrSize = isDesktop ? 160 : isTablet ? 128 : 112;
 
   const url =
     typeof window !== "undefined"
@@ -339,47 +343,13 @@ export function GenerateLinkDialog({
                     />
                   }
                 >
-                  {/* 320px - 379px */}
                   <QRCodeSVG
                     value={url}
-                    size={112}
+                    size={qrSize}
                     bgColor="#ffffff"
                     fgColor="#000000"
                     level="M"
                     includeMargin={false}
-                    className="
-                      block
-                      min-[380px]:hidden
-                    "
-                  />
-
-                  {/* 380px - 639px */}
-                  <QRCodeSVG
-                    value={url}
-                    size={128}
-                    bgColor="#ffffff"
-                    fgColor="#000000"
-                    level="M"
-                    includeMargin={false}
-                    className="
-                      hidden
-                      min-[380px]:block
-                      sm:hidden
-                    "
-                  />
-
-                  {/* Desktop */}
-                  <QRCodeSVG
-                    value={url}
-                    size={160}
-                    bgColor="#ffffff"
-                    fgColor="#000000"
-                    level="M"
-                    includeMargin={false}
-                    className="
-                      hidden
-                      sm:block
-                    "
                   />
                 </Suspense>
               </div>

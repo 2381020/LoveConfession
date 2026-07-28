@@ -15,7 +15,7 @@ const COLORS = ["#f43f5e", "#ec4899", "#d946ef", "#a855f7", "#fbbf24", "#fb923c"
 
 export function CursorSparkle() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const sparklesRef = useRef<Sparkle[]>([]);
+  const elementsRef = useRef<HTMLElement[]>([]);
   const idRef = useRef(0);
   const lastTimeRef = useRef(0);
 
@@ -37,19 +37,23 @@ export function CursorSparkle() {
           rotation: Math.random() * 360,
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
         };
-        sparklesRef.current.push(sparkle);
-        createSparkleElement(container, sparkle);
+        const el = createSparkleElement(container, sparkle);
+        elementsRef.current.push(el);
       }
     };
 
     document.addEventListener("mousemove", handleMouseMove);
-    return () => document.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      elementsRef.current.forEach((el) => el.remove());
+      elementsRef.current = [];
+    };
   }, []);
 
   return <div ref={containerRef} className="fixed inset-0 pointer-events-none z-50" />;
 }
 
-function createSparkleElement(container: HTMLDivElement, sparkle: Sparkle) {
+function createSparkleElement(container: HTMLDivElement, sparkle: Sparkle): HTMLElement {
   const el = document.createElement("div");
   el.innerHTML = "✦";
   el.style.cssText = `
@@ -64,5 +68,8 @@ function createSparkleElement(container: HTMLDivElement, sparkle: Sparkle) {
     z-index: 50;
   `;
   container.appendChild(el);
-  setTimeout(() => el.remove(), 600);
+  setTimeout(() => {
+    el.remove();
+  }, 600);
+  return el;
 }

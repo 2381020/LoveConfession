@@ -141,10 +141,10 @@
 
   @keyframes heart-sway {
     0% {
-      margin-left: -30px;
+      transform: translateX(-30px);
     }
     100% {
-      margin-left: 30px;
+      transform: translateX(30px);
     }
   }
 

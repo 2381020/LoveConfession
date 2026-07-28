@@ -4,8 +4,9 @@ import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { HeartRain } from "@/components/effects/HeartRain";
 import { Button } from "@/components/ui/button";
-import { Heart, Share2 } from "lucide-react";
+import { Heart, Share2, Phone } from "lucide-react";
 import confetti from "canvas-confetti";
+import { normalizePhone } from "@/lib/parser";
 
 interface SuccessCelebrationProps {
   senderName: string;
@@ -19,6 +20,7 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
   useEffect(() => {
     const duration = 2500;
     const end = Date.now() + duration;
+    let rafId: number;
 
     const frame = () => {
       confetti({
@@ -35,9 +37,9 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
         origin: { x: 1, y: 0.7 },
         colors: ["#f43f5e", "#ec4899", "#d946ef", "#a855f7", "#fbbf24"],
       });
-      if (Date.now() < end) requestAnimationFrame(frame);
+      if (Date.now() < end) rafId = requestAnimationFrame(frame);
     };
-    frame();
+    rafId = requestAnimationFrame(frame);
 
     confetti({
       particleCount: 80,
@@ -47,7 +49,10 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
     });
 
     const timer = setTimeout(() => setShowContent(true), 500);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handleShare = useCallback(async () => {
@@ -155,15 +160,33 @@ export function SuccessCelebration({ senderName, whatsappNumber }: SuccessCelebr
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.5 }}
+            className="flex flex-col items-center gap-3"
           >
             <Button
               onClick={handleShare}
               size="lg"
               className="w-[280px] md:w-[320px] h-[52px] md:h-[54px] rounded-2xl bg-white text-pink-600 hover:bg-white/95 font-bold text-[15px] md:text-base shadow-xl hover:shadow-2xl hover:-translate-y-1 hover:glow transition-all duration-200 active:scale-[0.97]"
             >
-              <Share2 className="w-5 h-5" />
-              {copied ? "Link Disalin! ✅" : "Bagikan Momen Ini 💖"}
+              <Share2 className="w-5 h-5 mr-1" />
+              {copied ? "Link Disalin! ✅" : "Bagikan Momen Ini "}
             </Button>
+
+            {whatsappNumber && (
+              <Button
+                onClick={() =>
+                  window.open(
+                    `https://wa.me/${normalizePhone(whatsappNumber)}?text=${encodeURIComponent("Halo! Aku terima confession-nya 💕")}`,
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
+                size="lg"
+                className="w-[280px] md:w-[320px] h-[52px] md:h-[54px] rounded-2xl bg-green-500 hover:bg-green-600 text-white font-bold text-[15px] md:text-base shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-200 active:scale-[0.97]"
+              >
+                <Phone className="w-5 h-5 mr-1 fill-white" />
+                Hubungi Aku 
+              </Button>
+            )}
           </motion.div>
         </motion.div>
       )}

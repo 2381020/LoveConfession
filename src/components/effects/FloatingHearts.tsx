@@ -1,55 +1,55 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface Heart {
   id: number;
   left: number;
-  size: number;
-  duration: number;
-  delay: number;
   emoji: string;
-  opacity: number;
 }
 
 const HEART_EMOJIS = ["❤️", "💕", "💖", "💗", "💝", "💘"];
 
+function seededHeart(id: number): Heart {
+  return {
+    id,
+    left: ((id * 13.37 + 7.1) % 100),
+    emoji: HEART_EMOJIS[id % HEART_EMOJIS.length],
+  };
+}
+
 export function FloatingHearts() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [hearts, setHearts] = useState<Heart[]>([]);
 
-  useEffect(() => {
-    const count = isMobile ? 7 : 12;
-    const generated: Heart[] = Array.from({ length: count }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      size: isMobile ? 14 + Math.random() * 10 : 16 + Math.random() * 20,
-      duration: isMobile ? 10 + Math.random() * 14 : 8 + Math.random() * 12,
-      delay: Math.random() * 10,
-      emoji: HEART_EMOJIS[Math.floor(Math.random() * HEART_EMOJIS.length)],
-      opacity: 0.15 + Math.random() * 0.35,
-    }));
-    setHearts(generated);
-  }, [isMobile]);
+  const hearts = useMemo(() => {
+    const count = 12;
+    return Array.from({ length: count }, (_, i) => seededHeart(i));
+  }, []);
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {hearts.map((h) => (
-        <span
-          key={h.id}
-          className="absolute bottom-0 animate-[float-up_var(--dur)_var(--del)_linear_infinite]"
-          style={{
-            left: `${h.left}%`,
-            fontSize: `${h.size}px`,
-            opacity: h.opacity,
-            ["--dur" as string]: `${h.duration}s`,
-            ["--del" as string]: `${h.delay}s`,
-          }}
-        >
-          {h.emoji}
-        </span>
-      ))}
+      {hearts.map((h, i) => {
+        const size = isMobile ? 14 + ((i * 3 + 5) % 10) : 16 + ((i * 7 + 3) % 20);
+        const dur = isMobile ? 10 + ((i * 5 + 2) % 14) : 8 + ((i * 3 + 7) % 12);
+        const del = (i * 1.1) % 10;
+        const opacity = 0.15 + ((i * 9 + 1) % 5) * 0.07;
+        return (
+          <span
+            key={h.id}
+            className="absolute bottom-0 animate-[float-up_var(--dur)_var(--del)_linear_infinite]"
+            style={{
+              left: `${h.left}%`,
+              fontSize: `${size}px`,
+              opacity,
+              ["--dur" as string]: `${dur}s`,
+              ["--del" as string]: `${del}s`,
+            }}
+          >
+            {h.emoji}
+          </span>
+        );
+      })}
     </div>
   );
 }

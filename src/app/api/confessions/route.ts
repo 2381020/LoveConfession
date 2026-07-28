@@ -39,6 +39,8 @@ export async function POST(request: NextRequest) {
     let photoUrl: string | null = null;
     let musicUrl: string | null = null;
 
+    const uploads: Promise<void>[] = [];
+
     if (photo && photo.size > 0) {
       if (!ALLOWED_PHOTO_TYPES.includes(photo.type)) {
         return NextResponse.json({ error: "Format foto tidak didukung (jpg, png, webp, gif)" }, { status: 400 });
@@ -46,14 +48,18 @@ export async function POST(request: NextRequest) {
       if (photo.size > MAX_PHOTO_SIZE) {
         return NextResponse.json({ error: "Foto terlalu besar (maks 5MB)" }, { status: 400 });
       }
-      const ext = photo.name.split(".").pop() || "jpg";
-      const path = `${slug}/photo.${ext}`;
-      const { error } = await supabase.storage
-        .from("confessions")
-        .upload(path, photo, { contentType: photo.type, upsert: true });
-      if (error) throw new Error(`Gagal upload foto: ${error.message}`);
-      const { data } = supabase.storage.from("confessions").getPublicUrl(path);
-      photoUrl = data.publicUrl;
+      uploads.push(
+        (async () => {
+          const ext = photo.name.split(".").pop() || "jpg";
+          const path = `${slug}/photo.${ext}`;
+          const { error } = await supabase.storage
+            .from("confessions")
+            .upload(path, photo, { contentType: photo.type, upsert: true });
+          if (error) throw new Error(`Gagal upload foto: ${error.message}`);
+          const { data } = supabase.storage.from("confessions").getPublicUrl(path);
+          photoUrl = data.publicUrl;
+        })()
+      );
     }
 
     if (music && music.size > 0) {
@@ -63,15 +69,21 @@ export async function POST(request: NextRequest) {
       if (music.size > MAX_MUSIC_SIZE) {
         return NextResponse.json({ error: "Musik terlalu besar (maks 4MB)" }, { status: 400 });
       }
-      const ext = music.name.split(".").pop() || "mp3";
-      const path = `${slug}/music.${ext}`;
-      const { error } = await supabase.storage
-        .from("confessions")
-        .upload(path, music, { contentType: music.type, upsert: true });
-      if (error) throw new Error(`Gagal upload musik: ${error.message}`);
-      const { data } = supabase.storage.from("confessions").getPublicUrl(path);
-      musicUrl = data.publicUrl;
+      uploads.push(
+        (async () => {
+          const ext = music.name.split(".").pop() || "mp3";
+          const path = `${slug}/music.${ext}`;
+          const { error } = await supabase.storage
+            .from("confessions")
+            .upload(path, music, { contentType: music.type, upsert: true });
+          if (error) throw new Error(`Gagal upload musik: ${error.message}`);
+          const { data } = supabase.storage.from("confessions").getPublicUrl(path);
+          musicUrl = data.publicUrl;
+        })()
+      );
     }
+
+    await Promise.all(uploads);
 
     const { error: dbError } = await supabase.from("confessions").insert({
       slug,
