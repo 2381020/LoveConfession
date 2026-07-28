@@ -62,7 +62,7 @@ export function GenerateLinkDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-white/95 backdrop-blur-xl border-white/20 max-w-sm sm:max-w-md">
+      <DialogContent className="bg-white/95 backdrop-blur-xl border-white/20 max-w-[calc(100%-2.5rem)] sm:max-w-md">
         <AnimatePresence mode="wait">
           {phase === "generating" ? (
             <motion.div
